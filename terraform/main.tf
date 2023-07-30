@@ -6,13 +6,14 @@ terraform {
     }
   }
   backend "gcs" {
+    # Can't use the variable that contains the bucket name here.
     bucket = "ts-appengine-terraform-tfstate"
     prefix = "ts-appengine-terraform/state"
   }
 }
 
 provider "google" {
-  project = "node-on-gcp-terraform"
+  project = var.project_name
   region  = "us-central1"
 }
 
@@ -25,3 +26,8 @@ resource "google_storage_bucket" "terraform_state" {
     enabled = true
   }
 }
+
+#resource "google_app_engine_application" "ts-appengine-app" {
+#  project     = "node-on-gcp-terraform"
+#  location_id = "us-central"
+#}
