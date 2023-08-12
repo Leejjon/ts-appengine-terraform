@@ -2,3 +2,5 @@ terraform/.terraform
 terraform/.terraform.lock.hcl
 terraform/tfplan
 .idea/
+app/app.zip
+app/node_modules
