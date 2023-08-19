@@ -46,27 +46,16 @@ resource "random_id" "app" {
   byte_length = 8
 }
 
-resource "google_storage_bucket_object" "app" {
-  name   = "app.zip"
-  source = "../app/app.zip"
-  bucket = google_storage_bucket.app.name
-  depends_on = [
-    null_resource.build_and_push
-  ]
+data "archive_file" "function_dist" {
+  type        = "zip"
+  source_dir  = "../app"
+  output_path = "../app/app.zip"
 }
 
-resource "null_resource" "build_and_push" {
-  provisioner "local-exec" {
-    command = "zip ../app/app.zip ../app/index.js ../app/package.json ../app/package-lock.json"
-  }
-
-  triggers = {
-    always_run = timestamp()
-  }
-
-  depends_on = [
-    google_storage_bucket.app
-  ]
+resource "google_storage_bucket_object" "app" {
+  name   = "app.zip"
+  source = data.archive_file.function_dist.output_path
+  bucket = google_storage_bucket.app.name
 }
 
 resource "google_app_engine_application_url_dispatch_rules" "ts-appengine-app-dispatch-rules" {
@@ -78,7 +67,6 @@ resource "google_app_engine_application_url_dispatch_rules" "ts-appengine-app-di
 }
 
 //https://github.com/Ipsossiapi/pt_streams/blob/2b09f2eb013d1902ca5ae63a9644ee2544f93596/terraform/appengine.tf
-//https://github.com/Tohaker/discord-character-creator/
 resource "google_app_engine_standard_app_version" "app_v2" {
   version_id = "2"
   service    = "default"
