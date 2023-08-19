@@ -77,6 +77,8 @@ resource "google_app_engine_application_url_dispatch_rules" "ts-appengine-app-di
   }
 }
 
+//https://github.com/Ipsossiapi/pt_streams/blob/2b09f2eb013d1902ca5ae63a9644ee2544f93596/terraform/appengine.tf
+//https://github.com/Tohaker/discord-character-creator/
 resource "google_app_engine_standard_app_version" "app_v2" {
   version_id = "2"
   service    = "default"
