@@ -58,20 +58,6 @@ resource "google_storage_bucket_object" "app" {
   bucket = google_storage_bucket.app.name
 }
 
-#resource "null_resource" "build_and_push" {
-#  provisioner "local-exec" {
-#    command = "zip ../app/app.zip ../app/index.js ../app/package.json ../app/package-lock.json"
-#  }
-#
-#  triggers = {
-#    always_run = timestamp()
-#  }
-#
-#  depends_on = [
-#    google_storage_bucket.app
-#  ]
-#}
-
 resource "google_app_engine_application_url_dispatch_rules" "ts-appengine-app-dispatch-rules" {
   dispatch_rules {
     domain = "*"
