@@ -30,7 +30,6 @@ resource "google_storage_bucket" "terraform_state" {
 resource "google_app_engine_application" "ts-appengine-app" {
   project     = var.project_name
   location_id = "us-central"
-#  database_type = "CLOUD_DATASTORE_COMPATIBILITY"
 }
 
 resource "google_storage_bucket" "app" {
@@ -67,17 +66,17 @@ resource "google_app_engine_application_url_dispatch_rules" "ts-appengine-app-di
 }
 
 //https://github.com/Ipsossiapi/pt_streams/blob/2b09f2eb013d1902ca5ae63a9644ee2544f93596/terraform/appengine.tf
-resource "google_app_engine_standard_app_version" "app_v2" {
-  version_id = "2"
+resource "google_app_engine_standard_app_version" "latest_version" {
+
+  version_id = var.deployment_version
   service    = "default"
-  runtime    = "nodejs18"
+  runtime    = "nodejs20"
 
   entrypoint {
     shell = "node index.js"
   }
 
   deployment {
-
     zip {
       source_url = "https://storage.googleapis.com/${google_storage_bucket.app.name}/${google_storage_bucket_object.app.name}"
     }
@@ -98,6 +97,6 @@ resource "google_app_engine_standard_app_version" "app_v2" {
       max_instances                 = 4
     }
   }
+  noop_on_destroy = true
   delete_service_on_destroy = true
 }
-
