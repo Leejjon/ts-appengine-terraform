@@ -4,3 +4,4 @@ terraform/tfplan
 .idea/
 app/app.zip
 app/node_modules
+app/dist
