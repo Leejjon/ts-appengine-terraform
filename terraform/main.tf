@@ -2,7 +2,7 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "4.51.0"
+      version = "4.83.0"
     }
   }
   backend "gcs" {
@@ -100,3 +100,18 @@ resource "google_app_engine_application_url_dispatch_rules" "ts-appengine-app-di
 #  noop_on_destroy = true
 #  delete_service_on_destroy = true
 #}
+
+resource "google_project_service" "firestore" {
+  project = var.project_name
+  service = "firestore.googleapis.com"
+}
+
+resource "google_firestore_database" "default" {
+  project                           = var.project_name
+  name                              = "(default)"
+  location_id                       = "nam5"
+  type                              = "DATASTORE_MODE"
+  app_engine_integration_mode       = "ENABLED"
+
+  depends_on = [google_project_service.firestore]
+}

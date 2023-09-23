@@ -3,6 +3,6 @@ variable "project_name" {
   default = "node-on-gcp-terraform"
 }
 
-variable "deployment_version" {
-  type = string
-}
+#variable "deployment_version" {
+#  type = string
+#}
