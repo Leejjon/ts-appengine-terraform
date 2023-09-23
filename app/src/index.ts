@@ -1,11 +1,13 @@
 'use strict';
 
-const express = require('express');
+import express, {Request, Response} from "express";
+
 const app = express();
 
-app.use((req, res) => {
+app.use((req: Request, res: Response) => {
     res.status(200).send('Hello, world!');
 });
+
 // Start the server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
