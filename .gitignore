@@ -5,3 +5,5 @@ terraform/tfplan
 app/app.zip
 app/node_modules
 app/dist/
+app/build/
+app/public/
